@@ -12,25 +12,27 @@ import br.com.company.votingpanel.integration.AssociateCheckCpfIntegration;
 import br.com.company.votingpanel.mappers.AssociateMapper;
 import br.com.company.votingpanel.repository.AssociateRepository;
 import br.com.company.votingpanel.service.AssociateService;
+import br.com.company.votingpanel.util.MessageService;
 import feign.FeignException;
 
-//TODO MELHORAR VALIDAÇÃO DA RESPOSTA DO FEIGN CRIANDO UM ENUM BUILDER
-//TODO ADICIONAR AS MENSAGENS DE ERRO NO PROPERTIES
 @Service
 public class AssociateServiceImpl implements AssociateService {
 	
 	private final AssociateRepository associateRepository;
 	private final AssociateMapper associateMapper;
 	private final AssociateCheckCpfIntegration associateCheckCpfIntegration;
+	private final MessageService messageService;
 	
 	public AssociateServiceImpl(
 			AssociateRepository associateRepository,
 			AssociateMapper associateMapper,
-			AssociateCheckCpfIntegration associateCheckCpfIntegration) {
+			AssociateCheckCpfIntegration associateCheckCpfIntegration,
+			MessageService messageService) {
 		
 		this.associateRepository = associateRepository;
 		this.associateMapper = associateMapper;
 		this.associateCheckCpfIntegration = associateCheckCpfIntegration;
+		this.messageService = messageService;
 	}
 
 	@Override
@@ -69,10 +71,10 @@ public class AssociateServiceImpl implements AssociateService {
 
 		if ( e.status() == HttpStatus.NOT_FOUND.value() ) {
 			associateCheckCpfIntegrationResponse.setRequestStatus(HttpStatus.NOT_FOUND);
-			associateCheckCpfIntegrationResponse.setMessage("CPF inválido!");
+			associateCheckCpfIntegrationResponse.setMessage(messageService.getMessage("error.invalid.cpf"));
 		} else if ( e.status() != HttpStatus.OK.value() ) {
 			associateCheckCpfIntegrationResponse.setRequestStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-			associateCheckCpfIntegrationResponse.setMessage("Problemas ao validar o CPF informado. Tente novamente mais tarde.");
+			associateCheckCpfIntegrationResponse.setMessage(messageService.getMessage("message.problem.to.validate.cpf.try.again.later"));
 		}
 	}
 }

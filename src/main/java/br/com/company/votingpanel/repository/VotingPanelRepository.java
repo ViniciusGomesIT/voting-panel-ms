@@ -1,5 +1,7 @@
 package br.com.company.votingpanel.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.company.votingpanel.domain.VotingPanelEntity;
@@ -9,5 +11,5 @@ public interface VotingPanelRepository extends JpaRepository<VotingPanelEntity, 
 
 	VotingPanelEntity findByTittleIgnoreCaseAndDescriptionIgnoreCase(String tittle, String description);
 
-	VotingPanelEntity findByIdAndStatus(Long votingPanelId, VotingPanelStatusEnum status);
+	Optional<VotingPanelEntity> findByIdAndStatus(Long votingPanelId, VotingPanelStatusEnum status);
 }

@@ -28,4 +28,8 @@ config:
     defaultEncoding: UTF-8
     defaultLocale: pt-BR
     defaultCacheLifeTime: 120
-    defaultBaseName: /i18n/errors
+    defaultBaseName: classpath:/i18n/messages
+  validation:
+    numericRegexValidator: "[0-9]+"
+    defaultCpfLengthValidator: 11
+    defaultSessionExpirationTimeInMinutes: 1
