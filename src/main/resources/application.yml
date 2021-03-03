@@ -1,2 +1,31 @@
 server:
   port: 8085
+  
+spring:
+  datasource: 
+    url: jdbc:h2:file:~/spring-boot-h2-db
+    driverClassName: org.h2.Driver
+    username: admin
+    password: admin
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+
+api:
+  integration:
+    associate:
+      uri: https://user-info.herokuapp.com
+      checkCpf: /users/{cpf}
+      
+config:
+  messageSource:
+    defaultEncoding: UTF-8
+    defaultLocale: pt-BR
+    defaultCacheLifeTime: 120
+    defaultBaseName: /i18n/errors
